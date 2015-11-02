@@ -1,13 +1,6 @@
-   // VRNJOH005
-   // Niel Vernooy
-	
-	// note - i admit that i have mage extensive use of the internet
-	// and freely available java code as examples for building my more
-	// complicated code, such as the heavier implementation of lists and 
-	// components. therefore there are some similarities between my work
-	// and others on the internet, most can just be found by googling 
-	// minesweeper in java :)
-	
+  /*
+    Program to play the classic Minesweeper game
+  */
 	import javax.swing.JButton;
    import javax.swing.JFrame;
    import javax.swing.JLabel;
@@ -45,19 +38,19 @@
       private ImageIcon flagicon = new ImageIcon ("flag.gif");
       private ImageIcon xicon = new ImageIcon ("xicon.gif");
       private Graphics g;
-   
+
     // declare global states that are use for varying states of
     // the game
        public static enum GameState
       {
          Playing, Finished
       }
-   
-   
+
+
     // set the gamestate to playing
       private GameState state = GameState.Playing;
-   
-   
+
+
     // main, declares jframe with windows look and feel
        public static void main (String args[]) throws Exception
       {
@@ -67,7 +60,7 @@
          window.setLayout (new BorderLayout ());
       // add new minesweeper object
          window.add (new Minesweeper ());
-      
+
       // set settings
          window.setResizable (false);
          window.setSize (280, 300);
@@ -75,28 +68,28 @@
          window.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
          window.setVisible (true);
       }
-   
-   
+
+
     // minesweeper object
        public Minesweeper ()
       {
       // set the layout and add the main panel
          setLayout (new BorderLayout ());
          add (panel, BorderLayout.CENTER);
-      
+
       // call method to create the mines
          minefield ();
       // and add the contol panel
          controlPanel ();
       }
-   
-   
+
+
     // create the minefield, basicly a matrix of buttons
        private void minefield ()
       {
       // a list of all the location of the mines
          List < Point > mines = new ArrayList < Point > ();
-      
+
       // loop through the matrix
          for (int row = 0 ; row < rowlen ; row++)
          {
@@ -112,7 +105,7 @@
                          @ Override
                          public String toString (){
                            return (int) getX () + ", " + (int) getY ();}
-                     
+
                          @ Override
                          public boolean equals (Object obj){
                            return ((Point) obj).getX () == getX () && ((Point) obj).getY () == getY ();}
@@ -128,10 +121,10 @@
       // loop through the components
          for (Component c:panel.getComponents ())
             surroundingMines ((Field) c, panel.getComponents ());
-         
+
       }
-   
-   
+
+
     // add a control panel
        private void controlPanel ()
       {
@@ -146,8 +139,8 @@
       // add actionlitener to the restart button
          restart.addActionListener (this);
       }
-   
-   
+
+
     // make a new list of the positions of all the mines
        private void newMinesList (List < Point > locations, Component[] components)
       {
@@ -169,14 +162,14 @@
             }
          }
       }
-   
-   
+
+
     // when a field is pressed the minecounts of the surrounding fields needs to be shown
        private void surroundingMines (Field btn, Component[] components)
       {
       // get the positions of the surrounding areas
          Point[] points = getFields (btn.getPosition ());
-      
+
       // loop through the array of positions
          for (Point p:points)
          {
@@ -190,14 +183,14 @@
       // and update the surrounding field
          btn.setText (btn.getminecount () + "");
       }
-   
-   
+
+
     // when the surrounding area is clear the field needs to be opened
        private void clearFields (Point current)
       {
       // get the surrounds
          Point[] points = getFields (current);
-      
+
       // loop through the surrounding fields
          for (Point p:
          points)
@@ -223,8 +216,8 @@
             }
          }
       }
-   
-   
+
+
     // return the current field object
        private Field getField (List < Point > minesloc, int tot, Point location)
       {
@@ -256,7 +249,7 @@
                      {
                         state = GameState.Playing;
                      }
-                  
+
                   //if the clicked button is disabled (set false), ignore
                      if (((Field) mouseEvent.getSource ()).isEnabled () == false)
                         return;
@@ -314,8 +307,8 @@
       // return the changed btn
          return btn;
       }
-   
-   
+
+
     // restart the game when the button is pressed
     // reset all the fields
        private void restart ()
@@ -327,8 +320,8 @@
          mines.setText ("" + totmines);
          mines.updateUI ();
       }
-   
-   
+
+
     // check the state of the game
        private boolean getGameSate ()
       {
@@ -361,15 +354,15 @@
                }
             // disable all the buttons
                b.setEnabled (false);
-            
+
             }
          // display a message that the player has won
             JOptionPane.showMessageDialog (this, "You are a winner", "Finished", JOptionPane.INFORMATION_MESSAGE, null);
          }
          return won;
       }
-   
-   
+
+
     // when a mine is found
        private void explode ()
       {
@@ -403,21 +396,21 @@
             b.setEnabled (false);
          }
       }
-   
-   
+
+
     // set this as a mine
        private boolean isMine (){
          return ((int) (Math.random () * rowlen) == 1);}
-   
-   
+
+
     // declare global states that are use for varying states of
     // the buttons
        public static enum State
       {
          Clicked, Flagged, Defualt, WrongFlagged
       }
-   
-   
+
+
     // the Field class, extending the JButton class
        class Field extends JButton
       {
@@ -426,8 +419,8 @@
          private State state = State.Defualt;
          private int minecount = 0;
          private Point position = null;
-      
-      
+
+
       // constuctor
           public Field (Point position)
          {
@@ -435,9 +428,9 @@
             setPosition (position);
             setText (position.toString ());
          }
-      
-        
-      
+
+
+
       // set the state of this button
           public void setState (State state)
          {
@@ -447,56 +440,56 @@
                setEnabled (false);
             }
          }
-      
-      
+
+
       // get the state
           public State getState ()
          {
             return state;
          }
-      
-      
+
+
       // get this buttons position
           public Point getPosition ()
          {
             return position;
          }
-      
-      
+
+
       // set the position
           public void setPosition (Point position)
          {
             this.position = position;
          }
-      
-      
+
+
       // get the no of mines around this field
           public int getminecount ()
          {
             return minecount;
          }
-      
-      
+
+
       // set the no of mines
           public void setminecount (int minecount)
          {
             this.minecount = minecount;
          }
-      
-      
+
+
       // get if it is a mine
           public boolean isMine ()
          {
             return isMine;
          }
-      
-      
+
+
       //set if it is a mine
           public void setMine (boolean isMine)
          {
             this.isMine = isMine;
          }
-      
+
        // override the getBackground method
           @ Override
           public Color getBackground ()
@@ -517,7 +510,7 @@
             else
                return super.getBackground ();
          }
-      
+
       // override the JButton method of getIcon
           @ Override
           // return a string depending on what state the button is in
@@ -526,7 +519,7 @@
          // if it is flagged
             if (state == State.Flagged)
                return flagicon;
-         
+
          // if it is clicked
             if (state == State.Clicked)
             {
@@ -538,10 +531,10 @@
          // if it has been wrongly marked
             if (state == State.WrongFlagged)
                return xicon;
-         
+
             return super.getIcon ();
          }
-      
+
       // override the JButton method of setText
       // return a string depending on what state the button is in
           @ Override
@@ -553,7 +546,7 @@
             if (state == State.Clicked) {
                if (isMine) {
                   return "<html><font size='16'><b>*</b></font></html>";
-               } 
+               }
                else
                {
                   if (getminecount() > 0)
@@ -565,8 +558,8 @@
             return super.getText ();
          }
       }
-   
-   
+
+
     //get the surrounding positions in an array
        private Point[] getFields (Point cPoint)
       {
@@ -575,19 +568,19 @@
          Point[] points = {new Point (cX - 1, cY - 1), new Point (cX - 1, cY), new Point (cX - 1, cY + 1), new Point (cX, cY - 1), new Point (cX, cY + 1), new Point (cX + 1, cY - 1), new Point (cX + 1, cY), new Point (cX + 1, cY + 1) };
          return points;
       }
-   
-   
+
+
     // return the button at the specifid position
        private Field getFieldAt (Component[] components, Point position)
       {
          for (Component btn:components)
             if ((((Field) btn).getPosition ().equals (position)))
                return (Field) btn;
-               
+
          return null;
       }
-   
-   
+
+
     // if an action is performed
        public void actionPerformed (ActionEvent actionEvent)
       {
