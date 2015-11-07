@@ -51,22 +51,28 @@
       private GameState state = GameState.Playing;
 
 
-    // main, declares jframe with windows look and feel
+    // main, declares jframe with OS look and feel
        public static void main (String args[]) throws Exception
       {
-         JFrame window = new JFrame ("MineSweeper");
-         UIManager.setLookAndFeel ("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-      // set layout
-         window.setLayout (new BorderLayout ());
-      // add new minesweeper object
-         window.add (new Minesweeper ());
+        JFrame window = new JFrame ("MineSweeper");
+        // check the OS
+        if (System.getProperty("os.name").toLowerCase().contains("windows")){
+          UIManager.setLookAndFeel ("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+        }
+        else{
+          UIManager.setLookAndFeel ("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
+        }
+        // set layout
+        window.setLayout (new BorderLayout ());
+        // add new minesweeper object
+        window.add (new Minesweeper ());
 
-      // set settings
-         window.setResizable (false);
-         window.setSize (280, 300);
-         window.setLocationRelativeTo (null);
-         window.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
-         window.setVisible (true);
+        // set settings
+        window.setResizable (false);
+        window.setSize (280, 300);
+        window.setLocationRelativeTo (null);
+        window.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
+        window.setVisible (true);
       }
 
 
@@ -84,7 +90,7 @@
       }
 
 
-    // create the minefield, basicly a matrix of buttons
+    // create the minefield, basically a matrix of buttons
        private void minefield ()
       {
       // a list of all the location of the mines
