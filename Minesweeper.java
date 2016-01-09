@@ -31,8 +31,9 @@
     public class Minesweeper extends JPanel implements ActionListener
    {
     // declare global variables
-      private static final int totmines = 10;
-      private int rowlen = 10, collen = 9, tot = rowlen * collen;
+      private static double difficulty = 0.1;
+      private static int rowlen = 20, collen = 20, tot = rowlen * collen;
+      private static final int totmines = (int)((double)(tot)*difficulty);
       private JPanel panel = new JPanel (new GridLayout (rowlen, collen));
       private JLabel mines = new JLabel (totmines + "");
       private JButton restart = new JButton ("Restart");
@@ -72,7 +73,7 @@
 
         // set settings
         window.setResizable (false);
-        window.setSize (280, 300);
+        window.setSize (rowLength()*25, columnLength()*25);
         window.setLocationRelativeTo (null);
         window.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
         window.setVisible (true);
@@ -90,6 +91,14 @@
          minefield ();
       // and add the contol panel
          controlPanel ();
+      }
+
+      private static int rowLength (){
+        return rowlen;
+      }
+
+      private static int columnLength (){
+        return collen;
       }
 
 
