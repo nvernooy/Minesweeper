@@ -9,6 +9,7 @@
    import javax.swing.UIManager;
    import javax.swing.Icon;
    import javax.swing.ImageIcon;
+   import javax.swing.border.LineBorder;
    import java.awt.BorderLayout;
    import java.awt.event.ActionEvent;
    import java.awt.event.ActionListener;
@@ -22,6 +23,7 @@
    import java.awt.Point;
    import java.awt.Graphics;
    import java.awt.Image;
+   import java.awt.Dimension;
    import java.util.ArrayList;
    import java.util.List;
 
@@ -34,6 +36,7 @@
       private JPanel panel = new JPanel (new GridLayout (rowlen, collen));
       private JLabel mines = new JLabel (totmines + "");
       private JButton restart = new JButton ("Restart");
+
       private ImageIcon mineicon = new ImageIcon ("mine.gif");
       private ImageIcon flagicon = new ImageIcon ("flag.gif");
       private ImageIcon xicon = new ImageIcon ("xicon.gif");
@@ -56,12 +59,12 @@
       {
         JFrame window = new JFrame ("MineSweeper");
         // check the OS
-        if (System.getProperty("os.name").toLowerCase().contains("windows")){
-          UIManager.setLookAndFeel ("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-        }
-        else{
-          UIManager.setLookAndFeel ("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
-        }
+        // if (System.getProperty("os.name").toLowerCase().contains("windows")){
+        //   UIManager.setLookAndFeel ("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+        // }
+        // else{
+        //   UIManager.setLookAndFeel ("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
+        // }
         // set layout
         window.setLayout (new BorderLayout ());
         // add new minesweeper object
@@ -134,16 +137,17 @@
     // add a control panel
        private void controlPanel ()
       {
-      // create new panel
-         JPanel tpnl = new JPanel (new FlowLayout (FlowLayout.CENTER));
-      // add a restart button
-         tpnl.add (restart);
-      // add the current minecount label
-         tpnl.add (new JLabel ("No of mines left:"));
-         tpnl.add (mines);
-         add (tpnl, BorderLayout.SOUTH);
-      // add actionlitener to the restart button
-         restart.addActionListener (this);
+        // create new panel
+        JPanel tpnl = new JPanel (new FlowLayout (FlowLayout.CENTER));
+        // add a restart button
+        restart.setBackground(new Color(163, 184, 204));
+        tpnl.add (restart);
+        // add the current minecount label
+        tpnl.add (new JLabel ("No of mines left:"));
+        tpnl.add (mines);
+        add (tpnl, BorderLayout.SOUTH);
+        // add actionlitener to the restart button
+        restart.addActionListener (this);
       }
 
 
@@ -433,8 +437,9 @@
          // setting the position and text of the button
             setPosition (position);
             setText (position.toString ());
+            // this.setPreferredSize(new Dimension(20, 20));
+            // this.setBorder( new LineBorder(Color.BLACK) );
          }
-
 
 
       // set the state of this button
@@ -508,11 +513,11 @@
                   return Color.RED;
             // if not a bomb with surrounding bombs
                if (getminecount () > 0)
-                  return Color.YELLOW;
+                  return new Color(255, 255, 204);
             }
          // if it is still enabled
             if (isEnabled ())
-               return Color.BLUE.brighter();
+               return new Color(166, 166, 166);
             else
                return super.getBackground ();
          }
@@ -563,6 +568,14 @@
             }
             return super.getText ();
          }
+
+          @Override
+          // override the getPreferredSize function to make square buttons
+          public Dimension getPreferredSize() {
+              Dimension d = super.getPreferredSize();
+              int s = (int)(d.getWidth()<d.getHeight() ? d.getHeight() : d.getWidth());
+              return new Dimension (s,s);
+          }
       }
 
 
